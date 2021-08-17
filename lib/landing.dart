@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:resto/components/search.dart';
 import 'components/list_of_restaurant.dart';
 import 'config/text_style.dart';
 
@@ -44,11 +45,16 @@ class Home extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16)),
                     child: TextField(
                       readOnly: true,
-                      // onTap: () => showSearch(
-                      //     context: context, delegate: SearchDrawer()),
+                      onTap: () => showSearch(
+                        context: context,
+                        delegate: Search(),
+                      ),
                       decoration: InputDecoration(
-                          hintText: "Cari restoran",
-                          prefixIcon: Icon(Icons.search),
+                          hintText: "Cari restoran/menu",
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.amber,
+                          ),
                           border: InputBorder.none),
                     ),
                   ),

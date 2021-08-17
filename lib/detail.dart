@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -26,7 +27,8 @@ class Details extends StatelessWidget {
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network(restaurant!.pictureUrl(), fit: BoxFit.cover),
+                    CachedNetworkImage(
+                        imageUrl: restaurant!.pictureUrl(), fit: BoxFit.cover),
                     SizedBox.expand(
                       child: DraggableScrollableSheet(
                         initialChildSize: 0.5,

@@ -1,10 +1,10 @@
 class Categories {
-  String? name;
+  String name;
 
-  Categories({this.name});
+  Categories({required this.name});
 
   factory Categories.fromJson(Map<String, dynamic> json) => Categories(
-        name: json['name'] as String?,
+        name: json['name'] as String,
       );
 
   Map<String, dynamic> toJson() => {

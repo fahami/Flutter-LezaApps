@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -49,8 +50,8 @@ class ListofRestaurant extends StatelessWidget {
                             ],
                           ),
                           leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(resto.pictureUrl())),
+                              backgroundImage: CachedNetworkImageProvider(
+                                  resto.pictureSmallUrl())),
                           title: Text(
                             resto.name,
                             style: TextStyle(fontWeight: FontWeight.bold),

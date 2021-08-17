@@ -40,7 +40,7 @@ class Restaurant {
             .map((e) => Categories.fromJson(e as Map<String, dynamic>))
             .toList(),
         menus: Menus.fromJson(json['menus'] as Map<String, dynamic>),
-        rating: json['rating'] as double,
+        rating: json['rating'] == null ? 0.0 : json['rating'].toDouble(),
         customerReviews: (json['customerReviews'] as List<dynamic>)
             .map((e) => CustomerReviews.fromJson(e as Map<String, dynamic>))
             .toList(),

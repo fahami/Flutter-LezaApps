@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:resto/components/category_menu.dart';
 import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
 import 'package:resto/models/restaurant.dart';
@@ -11,7 +12,7 @@ import 'rating_badge.dart';
 import 'share_button.dart';
 
 class ContentDetails extends StatelessWidget {
-  const ContentDetails({
+  ContentDetails({
     Key? key,
     required this.restaurant,
     required this.scrollController,
@@ -19,7 +20,8 @@ class ContentDetails extends StatelessWidget {
 
   final Restaurant restaurant;
   final ScrollController scrollController;
-
+  final reviewController = TextEditingController();
+  final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -56,6 +58,90 @@ class ContentDetails extends StatelessWidget {
                           name: restaurant.name,
                         ),
                       ),
+                      Expanded(
+                          flex: 1,
+                          child: MaterialButton(
+                            child: Column(
+                              children: [
+                                Icon(Icons.rate_review, color: Colors.blue),
+                                Text("Review")
+                              ],
+                            ),
+                            onPressed: () => showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(16))),
+                              builder: (context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16,
+                                      left: 16,
+                                      right: 16,
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                          "Beri ulasan untuk ${restaurant.name}",
+                                          style: titleFoodDetail,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white60,
+                                            borderRadius:
+                                                BorderRadius.circular(16)),
+                                        child: TextField(
+                                          controller: nameController,
+                                          decoration: InputDecoration(
+                                              hintText: "Nama",
+                                              prefixIcon: Icon(
+                                                Icons.person,
+                                                color: Colors.amber,
+                                              ),
+                                              border: InputBorder.none),
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white60,
+                                            borderRadius:
+                                                BorderRadius.circular(16)),
+                                        child: TextField(
+                                          maxLines: 5,
+                                          controller: reviewController,
+                                          decoration: InputDecoration(
+                                              hintText: "Ulasan...",
+                                              prefixIcon: Icon(
+                                                Icons.reviews,
+                                                color: Colors.amber,
+                                              ),
+                                              border: InputBorder.none),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextButton.icon(
+                                              onPressed: () async {},
+                                              icon: Icon(Icons.send),
+                                              label: Text('Kirim')),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            shape: CircleBorder(),
+                          ))
                     ],
                   ),
                   SizedBox(height: 8),
@@ -110,6 +196,12 @@ class ContentDetails extends StatelessWidget {
                       trimLines: 3,
                     ),
                   ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Kategori',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  CategoryMenu(restaurant: restaurant),
                   SizedBox(height: 16),
                   Text(
                     'Minuman',

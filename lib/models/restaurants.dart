@@ -34,5 +34,6 @@ class Restaurants {
         'city': city,
         'rating': rating,
       };
-  String pictureUrl() => ApiService.baseMediumImage + this.pictureId;
+
+  String pictureSmallUrl() => ApiService.baseSmallImage + this.pictureId;
 }

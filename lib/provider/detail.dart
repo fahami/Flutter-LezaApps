@@ -33,6 +33,11 @@ class DetailProvider extends ChangeNotifier {
         notifyListeners();
         return _result = detail;
       }
-    } catch (e) {}
+    } catch (e) {
+      _state = ResultState.Error;
+      print(e);
+      notifyListeners();
+      return _message = 'Error on $e';
+    }
   }
 }

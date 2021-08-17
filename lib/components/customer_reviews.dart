@@ -26,12 +26,27 @@ class CustomerReviews extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(reviews.name),
-                Text(reviews.date,
+                Expanded(
+                    flex: 2,
+                    child: Text(
+                      reviews.name,
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      softWrap: false,
+                    )),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    reviews.date,
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 10,
-                    ))
+                    ),
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                )
               ],
             ),
           ),
