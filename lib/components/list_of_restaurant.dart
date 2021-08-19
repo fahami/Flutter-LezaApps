@@ -17,58 +17,75 @@ class ListofRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => RestaurantProvider(apiService: ApiService()),
-      child: Expanded(child: Consumer<RestaurantProvider>(
-        builder: (context, state, _) {
-          if (state.state == ResultState.Loading) {
-            return Center(
-                child: Lottie.asset('assets/animations/loading.json'));
-          } else if (state.state == ResultState.HasData) {
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: state.result.count,
-              itemBuilder: (context, index) {
-                final resto = state.result.restaurants[index];
-                return BounceInUp(
-                    delay: Duration(milliseconds: 100 * index),
-                    child: Card(
-                      elevation: 0,
-                      child: ListTile(
-                          onTap: () => Get.toNamed('/restaurantDetail',
-                              arguments: resto.id),
-                          subtitle: Text(resto.city),
-                          trailing: Column(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.star, color: Colors.amber),
-                                    Text(resto.rating.toString())
-                                  ],
+      child: Expanded(
+        child: Consumer<RestaurantProvider>(
+          builder: (context, restaurant, _) {
+            if (restaurant.state == ResultState.Loading) {
+              return Center(
+                child: Lottie.asset('assets/animations/loading.json'),
+              );
+            } else if (restaurant.state == ResultState.HasData) {
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: restaurant.result.count,
+                itemBuilder: (context, index) {
+                  final resto = restaurant.result.restaurants[index];
+                  return BounceInUp(
+                      delay: Duration(milliseconds: 100 * index),
+                      child: Card(
+                        elevation: 0,
+                        child: ListTile(
+                            onTap: () => Get.toNamed(
+                                  '/restaurantDetail',
+                                  arguments: resto.id,
                                 ),
-                              ),
-                            ],
-                          ),
-                          leading: CircleAvatar(
-                              backgroundImage: CachedNetworkImageProvider(
-                                  resto.pictureSmallUrl())),
-                          title: Text(
-                            resto.name,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                    ));
-              },
-            );
-          } else if (state.state == ResultState.NoData) {
-            return Center(child: Lottie.asset('assets/animations/empty.json'));
-          } else if (state.state == ResultState.Error) {
-            print(state.message);
-            return Center(child: Lottie.asset('assets/animations/error.json'));
-          } else {
-            return Center(child: Text(''));
-          }
-        },
-      )),
+                            subtitle: Text(resto.city),
+                            trailing: Column(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.star, color: Colors.amber),
+                                      Text(resto.rating.toString())
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            leading: CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
+                                    resto.pictureSmallUrl())),
+                            title: Text(
+                              resto.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                      ));
+                },
+              );
+            } else if (restaurant.state == ResultState.NoData) {
+              return Center(
+                  child: Column(
+                children: [
+                  Lottie.asset('assets/animations/empty.json', width: 200),
+                  Text(restaurant.message)
+                ],
+              ));
+            } else if (restaurant.state == ResultState.Error) {
+              print(restaurant.message);
+              return Center(
+                  child: Column(
+                children: [
+                  Lottie.asset('assets/animations/error.json', width: 200),
+                  Text(restaurant.message)
+                ],
+              ));
+            } else {
+              return Center(child: Text(''));
+            }
+          },
+        ),
+      ),
     );
   }
 }

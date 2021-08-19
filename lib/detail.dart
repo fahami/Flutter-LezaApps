@@ -4,6 +4,7 @@ import 'package:get/instance_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
+import 'package:resto/components/search.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/provider/detail.dart';
 import 'package:get/get.dart';
@@ -29,10 +30,25 @@ class Details extends StatelessWidget {
                   children: [
                     CachedNetworkImage(
                         imageUrl: restaurant!.pictureUrl(), fit: BoxFit.cover),
+                    Positioned(
+                      child: AppBar(
+                        actions: [
+                          IconButton(
+                              onPressed: () => showSearch(
+                                  context: context, delegate: Search()),
+                              icon: Icon(Icons.search)),
+                          IconButton(
+                              onPressed: () => Get.toNamed('/'),
+                              icon: Icon(Icons.home))
+                        ],
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ),
+                    ),
                     SizedBox.expand(
                       child: DraggableScrollableSheet(
                         initialChildSize: 0.5,
-                        minChildSize: 0.25,
+                        minChildSize: 0.4,
                         maxChildSize: 0.75,
                         builder: (context, scrollController) {
                           return ContentDetails(
@@ -46,11 +62,21 @@ class Details extends StatelessWidget {
                 );
               } else if (state.state == ResultState.NoData) {
                 return Center(
-                  child: Lottie.asset('assets/animations/empty.json'),
+                  child: Column(
+                    children: [
+                      Lottie.asset('assets/animations/empty.json', width: 200),
+                      Text(state.message)
+                    ],
+                  ),
                 );
               } else if (state.state == ResultState.Error) {
                 return Center(
-                  child: Lottie.asset('assets/animations/error.json'),
+                  child: Column(
+                    children: [
+                      Lottie.asset('assets/animations/error.json', width: 200),
+                      Text(state.message)
+                    ],
+                  ),
                 );
               } else
                 return Center(child: Text(''));

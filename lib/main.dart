@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:resto/detail.dart';
+import 'package:resto/review.dart';
 import 'landing.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => Home()),
-        GetPage(name: '/restaurantDetail', page: () => Details())
+        GetPage(name: '/restaurantDetail', page: () => Details()),
+        GetPage(name: '/review', page: () => Review())
       ],
     );
   }

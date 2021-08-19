@@ -33,8 +33,9 @@ class Search extends SearchDelegate<String> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Menampilkan hasil pencarian "$query"'),
-            Divider(),
+            query.isEmpty
+                ? Text('')
+                : Text('Menampilkan hasil pencarian "$query"'),
             Expanded(
                 child: ChangeNotifierProvider(
               create: (_) =>
@@ -54,46 +55,37 @@ class Search extends SearchDelegate<String> {
                         return Card(
                           elevation: 1,
                           child: ListTile(
-                              onTap: () {
-                                print(suggestions[index]);
-                                Get.toNamed('/restaurantDetail',
-                                    arguments: suggestions[index].id);
-                              },
-                              trailing: Column(
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(Icons.star, color: Colors.amber),
-                                        Text(suggestions[index]
-                                            .rating
-                                            .toString())
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              leading: CircleAvatar(
-                                  backgroundImage: CachedNetworkImageProvider(
-                                      suggestions[index].pictureSmallUrl())),
-                              subtitle: Text(suggestions[index].city),
-                              title: RichText(
-                                text: TextSpan(
-                                    text: suggestions[index]
-                                        .name
-                                        .substring(0, query.length),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                            onTap: () {
+                              print(suggestions[index]);
+                              Get.toNamed('/restaurantDetail',
+                                  arguments: suggestions[index].id);
+                            },
+                            trailing: Column(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      TextSpan(
-                                          text: suggestions[index]
-                                              .name
-                                              .substring(query.length),
-                                          style: TextStyle(color: Colors.grey))
-                                    ]),
-                              )),
+                                      Icon(Icons.star, color: Colors.amber),
+                                      Text(
+                                        suggestions[index].rating.toString(),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            leading: CircleAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                suggestions[index].pictureSmallUrl(),
+                              ),
+                            ),
+                            subtitle: Text(suggestions[index].city),
+                            title: Text(
+                              suggestions[index].name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         );
                       },
                     );
@@ -126,7 +118,7 @@ class Search extends SearchDelegate<String> {
             return Center(
                 child: Lottie.asset('assets/animations/loading.json'));
           } else if (state.state == ResultState.HasData) {
-            final List<Restaurants> suggestions = query.isEmpty
+            final List<Restaurants> suggestions = query == ''
                 ? state.result.restaurants.sublist(0, 3)
                 : state.result.restaurants
                     .where((e) => e.name.toLowerCase().startsWith(query))
@@ -160,10 +152,22 @@ class Search extends SearchDelegate<String> {
               },
             );
           } else if (state.state == ResultState.NoData) {
-            return Center(child: Lottie.asset('assets/animations/empty.json'));
+            return Center(
+                child: Column(
+              children: [
+                Lottie.asset('assets/animations/empty.json', width: 200),
+                Text(state.message)
+              ],
+            ));
           } else if (state.state == ResultState.Error) {
             print(state.message);
-            return Center(child: Lottie.asset('assets/animations/error.json'));
+            return Center(
+                child: Column(
+              children: [
+                Lottie.asset('assets/animations/error.json', width: 200),
+                Text(state.message)
+              ],
+            ));
           } else {
             return Center(child: Text(''));
           }

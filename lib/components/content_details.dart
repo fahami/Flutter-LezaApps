@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:readmore/readmore.dart';
+import 'package:resto/api/api_service.dart';
 import 'package:resto/components/category_menu.dart';
 import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
@@ -10,6 +12,7 @@ import 'drinks_menu.dart';
 import 'foods_menu.dart';
 import 'rating_badge.dart';
 import 'share_button.dart';
+import 'package:get/get.dart';
 
 class ContentDetails extends StatelessWidget {
   ContentDetails({
@@ -92,9 +95,10 @@ class ContentDetails extends StatelessWidget {
                                           style: titleFoodDetail,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis),
+                                      SizedBox(height: 16),
                                       Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.white60,
+                                            color: Colors.grey[200],
                                             borderRadius:
                                                 BorderRadius.circular(16)),
                                         child: TextField(
@@ -108,9 +112,10 @@ class ContentDetails extends StatelessWidget {
                                               border: InputBorder.none),
                                         ),
                                       ),
+                                      SizedBox(height: 8),
                                       Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.white60,
+                                            color: Colors.grey[200],
                                             borderRadius:
                                                 BorderRadius.circular(16)),
                                         child: TextField(
@@ -130,7 +135,24 @@ class ContentDetails extends StatelessWidget {
                                             MainAxisAlignment.end,
                                         children: [
                                           TextButton.icon(
-                                              onPressed: () async {},
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              icon: Icon(Icons.close),
+                                              label: Text('Batal')),
+                                          TextButton.icon(
+                                              onPressed: () async {
+                                                final req = await ApiService()
+                                                    .writeReview(
+                                                        reviewController.text,
+                                                        nameController.text,
+                                                        restaurant.id);
+                                                if (req.message == "success") {
+                                                  Get.offNamed('/review',
+                                                      arguments: restaurant);
+                                                } else {
+                                                  print("Gagal tulis review");
+                                                }
+                                              },
                                               icon: Icon(Icons.send),
                                               label: Text('Kirim')),
                                         ],
