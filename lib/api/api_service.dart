@@ -12,7 +12,7 @@ class ApiService {
   static final String baseLargeImage = '$_baseUrl/images/large/';
 
   Future<RestaurantLists> fetchList() async {
-    final response = await http.get(Uri.parse('$_baseUrl/lists'));
+    final response = await http.get(Uri.parse('$_baseUrl/list'));
     return response.statusCode == 200
         ? RestaurantLists.fromJson(jsonDecode(response.body))
         : throw Exception('Failed to load list of restaurant');

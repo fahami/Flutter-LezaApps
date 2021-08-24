@@ -23,11 +23,13 @@ class DetailProvider extends ChangeNotifier {
     try {
       _state = ResultState.Loading;
       notifyListeners();
+      _message = 'Sedang memuat...';
       final detail = await apiService.fetchDetail(id);
       if (detail.restaurant == null) {
         _state = ResultState.NoData;
         notifyListeners();
-        return _message = 'No data found from API';
+        return _message =
+            'Restoran tidak ditemukan, coba cari restoran yang lainnya';
       } else {
         _state = ResultState.HasData;
         notifyListeners();
@@ -37,7 +39,7 @@ class DetailProvider extends ChangeNotifier {
       _state = ResultState.Error;
       print(e);
       notifyListeners();
-      return _message = 'Error on $e';
+      return _message = 'Pastikan anda terhubung dengan internet ya...';
     }
   }
 }

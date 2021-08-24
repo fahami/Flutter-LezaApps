@@ -30,32 +30,34 @@ class _ReviewState extends State<Review> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset('assets/animations/review.json'),
-              SizedBox(height: 8),
-              Text(
-                "Terima kasih telah memberikan review kepada restoran " +
-                    data.name,
-                style: highlightTitle,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8),
-              Text('Anda akan diarahkan kembali dalam 5 detik'),
-              SizedBox(height: 16),
-              TextButton(
-                onPressed: () =>
-                    Get.offAllNamed('/restaurantDetail', arguments: data.id),
-                child: Text(
-                  "Kembali",
-                  style: TextStyle(color: Colors.amber),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset('assets/animations/review.json'),
+                SizedBox(height: 8),
+                Text(
+                  "Terima kasih telah memberikan review kepada restoran " +
+                      data.name,
+                  style: highlightTitle,
+                  textAlign: TextAlign.center,
                 ),
-              )
-            ],
+                SizedBox(height: 8),
+                Text('Anda akan diarahkan kembali dalam 5 detik'),
+                SizedBox(height: 16),
+                TextButton(
+                  onPressed: () =>
+                      Get.offAllNamed('/restaurantDetail', arguments: data.id),
+                  child: Text(
+                    "Kembali",
+                    style: TextStyle(color: Colors.amber),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

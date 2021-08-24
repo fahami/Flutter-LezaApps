@@ -14,11 +14,11 @@ class CategoryMenu extends StatelessWidget {
     return Wrap(
       children: restaurant.categories
           .map(
-            (e) => Container(
+            (resto) => Container(
               margin: EdgeInsets.only(right: 4),
               child: Chip(
                 backgroundColor: Colors.amber.withOpacity(0.2),
-                label: Text(e.name),
+                label: Text(resto.name),
               ),
             ),
           )

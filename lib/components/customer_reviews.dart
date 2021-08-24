@@ -1,9 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:resto/models/customer_reviews.dart';
 import 'package:resto/models/restaurant.dart';
 
-class CustomerReviews extends StatelessWidget {
-  const CustomerReviews({
+class ListCustomerReviews extends StatelessWidget {
+  const ListCustomerReviews({
     Key? key,
     required this.restaurant,
   }) : super(key: key);
@@ -17,7 +18,7 @@ class CustomerReviews extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: restaurant.customerReviews.length,
       itemBuilder: (context, index) {
-        final reviews = restaurant.customerReviews[index];
+        final CustomerReviews reviews = restaurant.customerReviews[index];
         return FadeInUp(
           child: ListTile(
             leading: Icon(Icons.rate_review),
@@ -27,13 +28,14 @@ class CustomerReviews extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                    flex: 2,
-                    child: Text(
-                      reviews.name,
-                      overflow: TextOverflow.fade,
-                      maxLines: 1,
-                      softWrap: false,
-                    )),
+                  flex: 2,
+                  child: Text(
+                    reviews.name,
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
                 Expanded(
                   flex: 1,
                   child: Text(

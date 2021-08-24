@@ -23,11 +23,13 @@ class SearchProvider extends ChangeNotifier {
     try {
       _state = ResultState.Loading;
       notifyListeners();
+      _message = "Sedang memuat...";
       final search = await apiService.fetchSearch(query);
       if (search.restaurants.isEmpty) {
         _state = ResultState.NoData;
         notifyListeners();
-        return _message = 'No data found from API';
+        return _message =
+            'Restoran tidak ditemukan, gunakan kata kunci lainnya';
       } else {
         _state = ResultState.HasData;
         notifyListeners();
@@ -36,7 +38,7 @@ class SearchProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error on $e';
+      return _message = 'Pastikan anda terhubung dengan internet ya...';
     }
   }
 }

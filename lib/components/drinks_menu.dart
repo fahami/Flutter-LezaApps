@@ -14,11 +14,11 @@ class DrinksMenu extends StatelessWidget {
     return Wrap(
       children: restaurant.menus.drinks
           .map(
-            (e) => Container(
+            (drink) => Container(
               margin: EdgeInsets.only(right: 4),
               child: Chip(
                 backgroundColor: Colors.red.withOpacity(0.2),
-                label: Text(e.name),
+                label: Text(drink.name),
               ),
             ),
           )

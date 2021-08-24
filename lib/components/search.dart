@@ -14,7 +14,12 @@ class Search extends SearchDelegate<String> {
   String get searchFieldLabel => 'Cari restoran/menu';
   @override
   List<Widget> buildActions(BuildContext context) {
-    return [IconButton(onPressed: () => query = '', icon: Icon(Icons.clear))];
+    return [
+      IconButton(
+        onPressed: () => query = '',
+        icon: Icon(Icons.clear),
+      )
+    ];
   }
 
   @override
@@ -27,83 +32,117 @@ class Search extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            query.isEmpty
-                ? Text('')
-                : Text('Menampilkan hasil pencarian "$query"'),
-            Expanded(
-                child: ChangeNotifierProvider(
-              create: (_) =>
-                  SearchProvider(apiService: ApiService(), query: query),
-              child: Consumer<SearchProvider>(
-                builder: (context, state, _) {
-                  if (state.state == ResultState.Loading) {
-                    return Center(
-                        child: Lottie.asset('assets/animations/loading.json'));
-                  } else if (state.state == ResultState.HasData) {
-                    final List<Restaurants> suggestions =
-                        state.searches.restaurants;
-                    return ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: suggestions.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 1,
-                          child: ListTile(
-                            onTap: () {
-                              print(suggestions[index]);
-                              Get.toNamed('/restaurantDetail',
-                                  arguments: suggestions[index].id);
-                            },
-                            trailing: Column(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.star, color: Colors.amber),
-                                      Text(
-                                        suggestions[index].rating.toString(),
-                                      )
-                                    ],
+    return ChangeNotifierProvider(
+      create: (_) => SearchProvider(
+        apiService: ApiService(),
+        query: query,
+      ),
+      child: Consumer<SearchProvider>(
+        builder: (context, state, _) {
+          if (state.state == ResultState.Loading) {
+            return Center(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/loading.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
+          } else if (state.state == ResultState.HasData) {
+            final List<Restaurants> suggestions = state.searches.restaurants;
+            return Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 16),
+                      child: query.isEmpty
+                          ? Text('')
+                          : Text('Menampilkan hasil pencarian "$query"'),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: suggestions.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 1,
+                            child: ListTile(
+                              onTap: () {
+                                print(suggestions[index]);
+                                Get.toNamed(
+                                  '/restaurantDetail',
+                                  arguments: suggestions[index].id,
+                                );
+                              },
+                              trailing: Column(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.star, color: Colors.amber),
+                                        Text(
+                                          suggestions[index].rating.toString(),
+                                        )
+                                      ],
+                                    ),
                                   ),
+                                ],
+                              ),
+                              leading: CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
+                                  suggestions[index].pictureSmallUrl(),
                                 ),
-                              ],
-                            ),
-                            leading: CircleAvatar(
-                              backgroundImage: CachedNetworkImageProvider(
-                                suggestions[index].pictureSmallUrl(),
+                              ),
+                              subtitle: Text(suggestions[index].city),
+                              title: Text(
+                                suggestions[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            subtitle: Text(suggestions[index].city),
-                            title: Text(
-                              suggestions[index].name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if (state.state == ResultState.NoData) {
-                    return Center(
-                        child: Lottie.asset('assets/animations/empty.json'));
-                  } else if (state.state == ResultState.Error) {
-                    print(state.message);
-                    return Center(
-                        child: Lottie.asset('assets/animations/error.json'));
-                  } else {
-                    return Center(child: Text(''));
-                  }
-                },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ))
-          ],
-        ),
+            );
+          } else if (state.state == ResultState.NoData) {
+            return Center(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/empty.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
+          } else if (state.state == ResultState.Error) {
+            return Center(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/error.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Center(child: Text(''));
+          }
+        },
       ),
     );
   }
@@ -116,58 +155,78 @@ class Search extends SearchDelegate<String> {
         builder: (context, state, _) {
           if (state.state == ResultState.Loading) {
             return Center(
-                child: Lottie.asset('assets/animations/loading.json'));
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/loading.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
           } else if (state.state == ResultState.HasData) {
             final List<Restaurants> suggestions = query == ''
                 ? state.result.restaurants.sublist(0, 3)
                 : state.result.restaurants
-                    .where((e) => e.name.toLowerCase().startsWith(query))
+                    .where(
+                      (restaurant) =>
+                          restaurant.name.toLowerCase().startsWith(query),
+                    )
                     .toList();
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: suggestions.length,
               itemBuilder: (context, index) {
+                final Restaurants restaurants = suggestions[index];
                 return ListTile(
-                    onTap: () {
-                      print(suggestions[index]);
-                      Get.toNamed('/restaurantDetail',
-                          arguments: suggestions[index].id);
-                    },
-                    leading: Icon(Icons.local_restaurant),
-                    title: RichText(
-                      text: TextSpan(
-                          text: suggestions[index]
-                              .name
-                              .substring(0, query.length),
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                          children: [
-                            TextSpan(
-                                text: suggestions[index]
-                                    .name
-                                    .substring(query.length),
-                                style: TextStyle(color: Colors.grey))
-                          ]),
-                    ));
+                  onTap: () {
+                    Get.toNamed('/restaurantDetail', arguments: restaurants.id);
+                    print(restaurants.id);
+                  },
+                  leading: Icon(Icons.local_restaurant),
+                  title: RichText(
+                    text: TextSpan(
+                      text: restaurants.name.substring(0, query.length),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: restaurants.name.substring(query.length),
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  ),
+                );
               },
             );
           } else if (state.state == ResultState.NoData) {
             return Center(
+              child: Container(
                 child: Column(
-              children: [
-                Lottie.asset('assets/animations/empty.json', width: 200),
-                Text(state.message)
-              ],
-            ));
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/error.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
           } else if (state.state == ResultState.Error) {
-            print(state.message);
             return Center(
+              child: Container(
                 child: Column(
-              children: [
-                Lottie.asset('assets/animations/error.json', width: 200),
-                Text(state.message)
-              ],
-            ));
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/error.json', width: 200),
+                    Text(state.message)
+                  ],
+                ),
+              ),
+            );
           } else {
             return Center(child: Text(''));
           }

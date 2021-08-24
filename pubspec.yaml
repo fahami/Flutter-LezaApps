@@ -24,6 +24,7 @@ dependencies:
   animate_do: ^2.0.0
   cached_network_image: ^3.1.0
   cupertino_icons: ^1.0.2
+  firebase_core: ^1.5.0
   flutter:
     sdk: flutter
   get: ^4.3.4
@@ -63,9 +64,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/animations/
-    - assets/local_restaurant.json
     - assets/img/
-    - assets/img/person.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

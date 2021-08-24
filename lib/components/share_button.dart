@@ -17,9 +17,13 @@ class ShareButton extends StatelessWidget {
       minWidth: 0,
       shape: CircleBorder(),
       onPressed: () => Share.share(
-          'Yuk pergi ke Restoran $name yang berlokasi di $location'),
+        'Yuk pergi ke Restoran $name yang berlokasi di $location',
+      ),
       child: Column(
-        children: [Icon(Icons.share, color: Colors.blue), Text('Share')],
+        children: [
+          Icon(Icons.share, color: Colors.blue),
+          Text('Share'),
+        ],
       ),
     );
   }
