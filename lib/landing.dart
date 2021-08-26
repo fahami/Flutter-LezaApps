@@ -1,10 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:resto/components/search.dart';
+import 'package:resto/helpers/notifications_helper.dart';
+import 'package:resto/provider/scheduling_provider.dart';
 import 'components/list_of_restaurant.dart';
 import 'config/text_style.dart';
 
 class Home extends StatelessWidget {
+  final NotificationHelper notificationHelper = NotificationHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +23,32 @@ class Home extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FadeInRight(
-                      child: CircleAvatar(
-                        maxRadius: 25,
-                        backgroundImage: AssetImage('assets/img/person.jpeg'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 25,
+                            backgroundImage:
+                                AssetImage('assets/img/person.jpeg'),
+                          ),
+                          ChangeNotifierProvider<SchedulingProvider>(
+                            create: (_) => SchedulingProvider(),
+                            child: Consumer<SchedulingProvider>(
+                              builder: (context, scheduled, _) {
+                                return Switch.adaptive(
+                                  value: scheduled.isScheduled,
+                                  onChanged: (value) {
+                                    scheduled.scheduledRecommendation(value);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Get.toNamed('/favorite'),
+                            icon: Icon(Icons.favorite),
+                          )
+                        ],
                       ),
                     ),
                     FadeInLeftBig(

@@ -4,11 +4,11 @@ import 'package:get/instance_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
-import 'package:resto/components/search.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/models/restaurant.dart';
 import 'package:resto/provider/detail.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'components/content_details.dart';
 
 class Details extends StatelessWidget {
@@ -44,9 +44,10 @@ class Details extends StatelessWidget {
                     child: AppBar(
                       actions: [
                         IconButton(
-                          onPressed: () =>
-                              showSearch(context: context, delegate: Search()),
-                          icon: Icon(Icons.search),
+                          onPressed: () => Share.share(
+                            'Yuk pergi ke Restoran ${restaurant.name} yang berlokasi di ${restaurant.city}',
+                          ),
+                          icon: Icon(Icons.share),
                         ),
                         IconButton(
                           onPressed: () => Get.toNamed('/'),

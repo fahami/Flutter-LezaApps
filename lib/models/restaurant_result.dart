@@ -1,9 +1,9 @@
-import 'restaurants.dart';
+import 'restaurant.dart';
 
 class RestaurantResult {
   bool error;
   int founded;
-  List<Restaurants> restaurants;
+  List<Restaurant> restaurants;
 
   RestaurantResult(
       {required this.error, required this.founded, required this.restaurants});
@@ -13,7 +13,7 @@ class RestaurantResult {
         error: json['error'] as bool,
         founded: json['founded'] as int,
         restaurants: (json['restaurants'] as List<dynamic>)
-            .map((e) => Restaurants.fromJson(e as Map<String, dynamic>))
+            .map((e) => Restaurant.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
 

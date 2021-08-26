@@ -12,7 +12,7 @@ class CategoryMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      children: restaurant.categories
+      children: restaurant.categories!
           .map(
             (resto) => Container(
               margin: EdgeInsets.only(right: 4),

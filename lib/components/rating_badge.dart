@@ -36,7 +36,7 @@ class RatingBadge extends StatelessWidget {
                 TextSpan(text: restaurant.rating.toString()),
                 TextSpan(
                   style: TextStyle(fontStyle: FontStyle.italic),
-                  text: ' (${restaurant.customerReviews.length} ulasan)',
+                  text: ' (${restaurant.customerReviews!.length} ulasan)',
                 ),
               ],
             ),

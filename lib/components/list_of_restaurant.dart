@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
 import 'package:resto/constant/enum.dart';
-import 'package:resto/models/restaurants.dart';
+import 'package:resto/models/restaurant.dart';
 import 'package:resto/provider/restaurants.dart';
 
 class ListofRestaurant extends StatelessWidget {
@@ -36,10 +36,10 @@ class ListofRestaurant extends StatelessWidget {
             );
           } else if (restaurant.state == ResultState.HasData) {
             return ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: restaurant.result.count,
               itemBuilder: (context, index) {
-                final Restaurants resto = restaurant.result.restaurants[index];
+                final Restaurant resto = restaurant.result.restaurants[index];
                 return BounceInUp(
                   delay: Duration(milliseconds: 100 * index),
                   child: Card(
@@ -65,7 +65,7 @@ class ListofRestaurant extends StatelessWidget {
                       ),
                       leading: CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(
-                          resto.pictureSmallUrl(),
+                          resto.pictureUrl(),
                         ),
                       ),
                       title: Text(

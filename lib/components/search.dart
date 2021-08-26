@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
 import 'package:resto/constant/enum.dart';
-import 'package:resto/models/restaurants.dart';
+import 'package:resto/models/restaurant.dart';
 import 'package:resto/provider/restaurants.dart';
 import 'package:resto/provider/search.dart';
 
@@ -52,7 +52,7 @@ class Search extends SearchDelegate<String> {
               ),
             );
           } else if (state.state == ResultState.HasData) {
-            final List<Restaurants> suggestions = state.searches.restaurants;
+            final List<Restaurant> suggestions = state.searches.restaurants;
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Container(
@@ -96,7 +96,7 @@ class Search extends SearchDelegate<String> {
                               ),
                               leading: CircleAvatar(
                                 backgroundImage: CachedNetworkImageProvider(
-                                  suggestions[index].pictureSmallUrl(),
+                                  suggestions[index].pictureUrl(),
                                 ),
                               ),
                               subtitle: Text(suggestions[index].city),
@@ -166,7 +166,7 @@ class Search extends SearchDelegate<String> {
               ),
             );
           } else if (state.state == ResultState.HasData) {
-            final List<Restaurants> suggestions = query == ''
+            final List<Restaurant> suggestions = query == ''
                 ? state.result.restaurants.sublist(0, 3)
                 : state.result.restaurants
                     .where(
@@ -178,7 +178,7 @@ class Search extends SearchDelegate<String> {
               physics: BouncingScrollPhysics(),
               itemCount: suggestions.length,
               itemBuilder: (context, index) {
-                final Restaurants restaurants = suggestions[index];
+                final Restaurant restaurants = suggestions[index];
                 return ListTile(
                   onTap: () {
                     Get.toNamed('/restaurantDetail', arguments: restaurants.id);

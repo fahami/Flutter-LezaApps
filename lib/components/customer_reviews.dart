@@ -16,9 +16,9 @@ class ListCustomerReviews extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: restaurant.customerReviews.length,
+      itemCount: restaurant.customerReviews!.length,
       itemBuilder: (context, index) {
-        final CustomerReviews reviews = restaurant.customerReviews[index];
+        final CustomerReviews reviews = restaurant.customerReviews![index];
         return FadeInUp(
           child: ListTile(
             leading: Icon(Icons.rate_review),

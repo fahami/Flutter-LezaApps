@@ -1,16 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:resto/components/category_menu.dart';
 import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
 import 'package:resto/models/restaurant.dart';
+import 'package:resto/provider/favorite_provider.dart';
+import 'package:resto/utils/database_helper.dart';
 import 'customer_reviews.dart';
 import 'drinks_menu.dart';
 import 'entry_review.dart';
 import 'foods_menu.dart';
 import 'rating_badge.dart';
-import 'share_button.dart';
 
 class ContentDetails extends StatelessWidget {
   ContentDetails({
@@ -56,12 +58,40 @@ class ContentDetails extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        flex: 1,
-                        child: ShareButton(
-                          location: restaurant.address,
-                          name: restaurant.name,
-                        ),
-                      ),
+                          flex: 1,
+                          child: ChangeNotifierProvider(
+                            create: (_) => FavoriteProvider(
+                                databaseHelper: DatabaseHelper()),
+                            child: Consumer<FavoriteProvider>(
+                              builder: (context, favorite, child) {
+                                return FutureBuilder(
+                                  future: favorite.checkFavorite(restaurant.id),
+                                  builder: (context, snapshot) {
+                                    final favorited = snapshot.data ?? false;
+                                    return MaterialButton(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.favorite,
+                                            color: favorited == true
+                                                ? Colors.red
+                                                : Colors.blue,
+                                          ),
+                                          Text('Favorit')
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        favorited == true
+                                            ? favorite
+                                                .removeFavorite(restaurant.id)
+                                            : favorite.addFavorite(restaurant);
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          )),
                       Expanded(
                           flex: 1,
                           child: MaterialButton(
@@ -114,7 +144,7 @@ class ContentDetails extends StatelessWidget {
                               ),
                               SizedBox(width: 2),
                               Text(
-                                restaurant.address,
+                                restaurant.city,
                                 style: TextStyle(
                                   color: colorHighlightTitle,
                                   fontSize: 12,

@@ -12,7 +12,7 @@ class DrinksMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      children: restaurant.menus.drinks
+      children: restaurant.menus!.drinks
           .map(
             (drink) => Container(
               margin: EdgeInsets.only(right: 4),
