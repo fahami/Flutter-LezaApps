@@ -7,9 +7,7 @@ import 'package:resto/models/write_review.dart';
 
 class ApiService {
   static final String _baseUrl = 'https://restaurant-api.dicoding.dev';
-  static final String baseSmallImage = '$_baseUrl/images/small/';
-  static final String baseMediumImage = '$_baseUrl/images/medium/';
-  static final String baseLargeImage = '$_baseUrl/images/large/';
+  static final String image = '$_baseUrl/images/medium/';
 
   Future<RestaurantLists> fetchList() async {
     final response = await http.get(Uri.parse('$_baseUrl/list'));

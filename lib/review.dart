@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
 import 'package:resto/models/restaurant.dart';
 
@@ -42,7 +43,7 @@ class _ReviewState extends State<Review> {
                 Text(
                   "Terima kasih telah memberikan review kepada restoran " +
                       data.name,
-                  style: highlightTitle,
+                  style: heading2,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 8),
@@ -53,7 +54,7 @@ class _ReviewState extends State<Review> {
                       Get.offAllNamed('/restaurantDetail', arguments: data.id),
                   child: Text(
                     "Kembali",
-                    style: TextStyle(color: Colors.amber),
+                    style: TextStyle(color: colorAccent),
                   ),
                 )
               ],

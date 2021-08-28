@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/models/restaurant.dart';
-import 'package:resto/utils/database_helper.dart';
+import 'package:resto/helpers/database_helper.dart';
 
 class FavoriteProvider extends ChangeNotifier {
   FavoriteProvider({required this.databaseHelper}) {

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/models/restaurant.dart';
-import 'package:resto/provider/detail.dart';
+import 'package:resto/provider/detail_provider.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'components/content_details.dart';

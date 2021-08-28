@@ -1,16 +1,14 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
 import 'package:resto/constant/enum.dart';
-import 'package:resto/models/restaurant.dart';
-import 'package:resto/provider/restaurants.dart';
+import 'package:resto/provider/restaurants_provider.dart';
 
-class ListofRestaurant extends StatelessWidget {
-  const ListofRestaurant({
+import 'restaurant_list.dart';
+
+class BodyList extends StatelessWidget {
+  const BodyList({
     Key? key,
   }) : super(key: key);
 
@@ -35,49 +33,9 @@ class ListofRestaurant extends StatelessWidget {
               ),
             );
           } else if (restaurant.state == ResultState.HasData) {
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: restaurant.result.count,
-              itemBuilder: (context, index) {
-                final Restaurant resto = restaurant.result.restaurants[index];
-                return BounceInUp(
-                  delay: Duration(milliseconds: 100 * index),
-                  child: Card(
-                    elevation: 0,
-                    child: ListTile(
-                      onTap: () => Get.toNamed(
-                        '/restaurantDetail',
-                        arguments: resto.id,
-                      ),
-                      subtitle: Text(resto.city),
-                      trailing: Column(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.star, color: Colors.amber),
-                                Text(resto.rating.toString())
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      leading: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          resto.pictureUrl(),
-                        ),
-                      ),
-                      title: Text(
-                        resto.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+            return RestaurantListBuilder(
+              count: restaurant.result.count,
+              data: restaurant.result.restaurants,
             );
           } else if (restaurant.state == ResultState.NoData) {
             return SingleChildScrollView(

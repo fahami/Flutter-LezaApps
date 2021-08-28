@@ -49,6 +49,11 @@ class DatabaseHelper {
     await db!.delete(_tableFavorite, where: 'id=?', whereArgs: [id]);
   }
 
+  Future<void> removeDatabase() async {
+    final db = await database;
+    await db!.delete(_tableFavorite);
+  }
+
   Future<bool?> isFavorite(String id) async {
     final db = await database;
     final List<Map<String, dynamic>> result = await db!.query(

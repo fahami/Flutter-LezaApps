@@ -1,13 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/api/api_service.dart';
+import 'package:resto/components/restaurant_list.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/models/restaurant.dart';
-import 'package:resto/provider/restaurants.dart';
-import 'package:resto/provider/search.dart';
+import 'package:resto/provider/restaurants_provider.dart';
+import 'package:resto/provider/search_provider.dart';
 
 class Search extends SearchDelegate<String> {
   @override
@@ -65,50 +65,9 @@ class Search extends SearchDelegate<String> {
                           : Text('Menampilkan hasil pencarian "$query"'),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: suggestions.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 1,
-                            child: ListTile(
-                              onTap: () {
-                                print(suggestions[index]);
-                                Get.toNamed(
-                                  '/restaurantDetail',
-                                  arguments: suggestions[index].id,
-                                );
-                              },
-                              trailing: Column(
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(Icons.star, color: Colors.amber),
-                                        Text(
-                                          suggestions[index].rating.toString(),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              leading: CircleAvatar(
-                                backgroundImage: CachedNetworkImageProvider(
-                                  suggestions[index].pictureUrl(),
-                                ),
-                              ),
-                              subtitle: Text(suggestions[index].city),
-                              title: Text(
-                                suggestions[index].name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                      child: RestaurantListBuilder(
+                        count: suggestions.length,
+                        data: suggestions,
                       ),
                     ),
                   ],

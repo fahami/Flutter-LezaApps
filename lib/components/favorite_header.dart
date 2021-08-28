@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/rendering/sliver_persistent_header.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resto/config/color.dart';
 
 class FavoriteHeader implements SliverPersistentHeaderDelegate {
   FavoriteHeader({required this.minExtent, required this.maxExtent});
-  late double minExtent;
+  final double minExtent;
   final double maxExtent;
 
   @override
@@ -22,8 +23,7 @@ class FavoriteHeader implements SliverPersistentHeaderDelegate {
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.amber.withOpacity(0.5), Colors.white],
-              stops: [0.1, 1.0],
+              colors: [colorAccent.withOpacity(0.2), Colors.white],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -32,7 +32,7 @@ class FavoriteHeader implements SliverPersistentHeaderDelegate {
         Positioned(
           left: 16,
           right: 16,
-          bottom: 16,
+          bottom: 40,
           child: Text(
             'Restoran Favorit',
             style: GoogleFonts.montserrat(
@@ -40,6 +40,16 @@ class FavoriteHeader implements SliverPersistentHeaderDelegate {
               color: Colors.black.withOpacity(parallax(shrinkOffset)),
               fontSize: 24,
             ),
+          ),
+        ),
+        Positioned(
+          left: -24,
+          right: 16,
+          bottom: 0,
+          child: TextButton.icon(
+            onPressed: null,
+            icon: Icon(Icons.info),
+            label: Text('Tambahkan favorit dari halaman restoran'),
           ),
         )
       ],

@@ -1,15 +1,16 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:resto/components/search.dart';
+import 'package:resto/config/color.dart';
 import 'package:resto/helpers/notifications_helper.dart';
-import 'package:resto/provider/scheduling_provider.dart';
-import 'components/list_of_restaurant.dart';
+import 'components/body_list.dart';
 import 'config/text_style.dart';
 
-class Home extends StatelessWidget {
+class Landing extends StatelessWidget {
   final NotificationHelper notificationHelper = NotificationHelper();
+  final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,27 +27,24 @@ class Home extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleAvatar(
-                            maxRadius: 25,
-                            backgroundImage:
-                                AssetImage('assets/img/person.jpeg'),
+                          Hero(
+                            tag: 'profileHero',
+                            child: CircleAvatar(
+                                maxRadius: 25,
+                                backgroundImage: NetworkImage(user!.photoURL ??
+                                    'https://karyasa.my.id/users.png')),
                           ),
-                          ChangeNotifierProvider<SchedulingProvider>(
-                            create: (_) => SchedulingProvider(),
-                            child: Consumer<SchedulingProvider>(
-                              builder: (context, scheduled, _) {
-                                return Switch.adaptive(
-                                  value: scheduled.isScheduled,
-                                  onChanged: (value) {
-                                    scheduled.scheduledRecommendation(value);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Get.toNamed('/favorite'),
-                            icon: Icon(Icons.favorite),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () => Get.toNamed('/favorite'),
+                                icon: Icon(Icons.favorite),
+                              ),
+                              IconButton(
+                                onPressed: () => Get.toNamed('/settings'),
+                                icon: Icon(Icons.settings),
+                              )
+                            ],
                           )
                         ],
                       ),
@@ -57,8 +55,10 @@ class Home extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Hai Fahmi!", style: heroText),
-                            Text("Mau makan apa nih?", style: heroText),
+                            Text(
+                                "Hello ${user!.displayName ?? 'Pelanggan Baru'}",
+                                style: heading1),
+                            Text("Mau makan apa nih?", style: heading1),
                           ],
                         ),
                       ),
@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
                               hintText: "Cari restoran/menu",
                               prefixIcon: Icon(
                                 Icons.search,
-                                color: Colors.amber,
+                                color: colorAccent,
                               ),
                               border: InputBorder.none),
                         ),
@@ -89,7 +89,7 @@ class Home extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListofRestaurant(),
+                child: BodyList(),
               ),
             ],
           ),

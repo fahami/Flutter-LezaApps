@@ -57,5 +57,5 @@ class Restaurant {
         'pictureId': pictureId,
         'rating': rating,
       };
-  String pictureUrl() => ApiService.baseMediumImage + this.pictureId;
+  String pictureUrl() => ApiService.image + this.pictureId;
 }

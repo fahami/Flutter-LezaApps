@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resto/api/api_service.dart';
+import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
 import 'package:resto/models/restaurant.dart';
 
@@ -31,7 +32,7 @@ class EntryReview extends StatelessWidget {
         children: [
           Text(
             "Beri ulasan untuk ${restaurant.name}",
-            style: titleFoodDetail,
+            style: heading3,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -48,7 +49,7 @@ class EntryReview extends StatelessWidget {
                 border: InputBorder.none,
                 prefixIcon: Icon(
                   Icons.person,
-                  color: Colors.amber,
+                  color: colorAccent,
                 ),
               ),
             ),
@@ -67,7 +68,7 @@ class EntryReview extends StatelessWidget {
                 border: InputBorder.none,
                 prefixIcon: Icon(
                   Icons.reviews,
-                  color: Colors.amber,
+                  color: colorAccent,
                 ),
               ),
             ),

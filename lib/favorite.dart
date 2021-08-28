@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/components/favorite_header.dart';
+import 'package:resto/config/color.dart';
 import 'package:resto/constant/enum.dart';
 import 'package:resto/models/restaurant.dart';
 import 'package:resto/provider/favorite_provider.dart';
-import 'package:resto/utils/database_helper.dart';
+import 'package:resto/helpers/database_helper.dart';
 
 class FavoriteRestaurant extends StatelessWidget {
   const FavoriteRestaurant({Key? key}) : super(key: key);
@@ -14,30 +16,21 @@ class FavoriteRestaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.back(),
+        backgroundColor: colorAccent,
+        child: Icon(
+          Icons.add,
+        ),
+      ),
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverPersistentHeader(
             pinned: false,
-            floating: true,
+            floating: false,
             delegate: FavoriteHeader(maxExtent: 180, minExtent: 80),
           ),
-          // SliverAppBar(
-          //     iconTheme: IconThemeData(color: Colors.black),
-          //     backgroundColor: Colors.amber,
-          //     actions: [
-          //       IconButton(
-          //           onPressed: () => Get.toNamed('/'), icon: Icon(Icons.home))
-          //     ],
-          //     floating: true,
-          //     expandedHeight: 120,
-          //     flexibleSpace: Container(
-          //       decoration: BoxDecoration(
-          //         image: DecorationImage(
-          //           image: AssetImage('/assets/img/restaurant.jpeg'),
-          //         ),
-          //       ),
-          //     )),
           SliverFillRemaining(
             child: ChangeNotifierProvider(
               create: (_) => FavoriteProvider(databaseHelper: DatabaseHelper()),
@@ -49,7 +42,7 @@ class FavoriteRestaurant extends StatelessWidget {
                     );
                   } else if (provider.state == ResultState.HasData) {
                     return ListView.builder(
-                      physics: BouncingScrollPhysics(),
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: provider.results.length,
                       itemBuilder: (context, index) {
                         final Restaurant result = provider.results[index];
@@ -80,7 +73,7 @@ class FavoriteRestaurant extends StatelessWidget {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.star, color: Colors.amber),
+                                      Icon(Icons.star, color: colorAccent),
                                       Text(result.rating.toString())
                                     ],
                                   ),
@@ -101,6 +94,16 @@ class FavoriteRestaurant extends StatelessWidget {
                           ),
                         );
                       },
+                    );
+                  } else if (provider.state == ResultState.NoData) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Lottie.asset('assets/animations/empty.json',
+                              width: 200),
+                          Text(provider.message)
+                        ],
+                      ),
                     );
                   } else if (provider.state == ResultState.Error) {
                     return Center(

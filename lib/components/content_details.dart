@@ -7,7 +7,7 @@ import 'package:resto/config/color.dart';
 import 'package:resto/config/text_style.dart';
 import 'package:resto/models/restaurant.dart';
 import 'package:resto/provider/favorite_provider.dart';
-import 'package:resto/utils/database_helper.dart';
+import 'package:resto/helpers/database_helper.dart';
 import 'customer_reviews.dart';
 import 'drinks_menu.dart';
 import 'entry_review.dart';
@@ -51,7 +51,7 @@ class ContentDetails extends StatelessWidget {
                         flex: 2,
                         child: Text(
                           restaurant.name,
-                          style: heroText,
+                          style: heading1,
                           maxLines: 1,
                           softWrap: false,
                           overflow: TextOverflow.fade,
@@ -132,14 +132,14 @@ class ContentDetails extends StatelessWidget {
                             horizontal: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.amber[50],
+                            color: colorAccent[50],
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.location_city,
-                                color: Colors.amber,
+                                color: colorAccent,
                                 size: 16,
                               ),
                               SizedBox(width: 2),
@@ -170,8 +170,8 @@ class ContentDetails extends StatelessWidget {
                       restaurant.description,
                       textAlign: TextAlign.justify,
                       style: TextStyle(color: Colors.black),
-                      moreStyle: TextStyle(color: Colors.amber),
-                      lessStyle: TextStyle(color: Colors.amber),
+                      moreStyle: TextStyle(color: colorAccent),
+                      lessStyle: TextStyle(color: colorAccent),
                       trimCollapsedText: 'Lebih lanjut',
                       trimExpandedText: 'Tutup',
                       trimLines: 3,

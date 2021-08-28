@@ -18,14 +18,14 @@ class RatingBadge extends StatelessWidget {
         horizontal: 6,
       ),
       decoration: BoxDecoration(
-        color: Colors.amber[50],
+        color: colorAccent[50],
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
           Icon(
             Icons.star,
-            color: Colors.amber,
+            color: colorAccent,
             size: 16,
           ),
           SizedBox(width: 2),
