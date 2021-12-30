@@ -34,11 +34,11 @@ class ApiService {
     final response = await http.post(
       Uri.parse('$_baseUrl/review'),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {"id": id, "name": name, "review": review},
     );
-    return response.statusCode == 200
+    return response.statusCode == 201
         ? WriteReview.fromJson(jsonDecode(response.body))
         : throw Exception('Failed to write review');
   }
