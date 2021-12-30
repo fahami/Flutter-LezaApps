@@ -10,7 +10,6 @@ class NotificationHelper {
       android: AndroidNotificationDetails(
         '1',
         'Rekomendasi Restoran',
-        'Memberikan rekomendasi restoran setiap hari',
         importance: Importance.max,
         priority: Priority.high,
         sound: RawResourceAndroidNotificationSound('notif'),

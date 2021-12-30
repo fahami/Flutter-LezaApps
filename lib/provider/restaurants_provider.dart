@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:resto/api/api_service.dart';
 import 'package:resto/constant/enum.dart' show ResultState;
@@ -7,6 +9,7 @@ class RestaurantProvider extends ChangeNotifier {
   late ApiService apiService;
 
   RestaurantProvider({required this.apiService}) {
+    log('triggered');
     fetchRestaurant();
   }
 
@@ -27,6 +30,7 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState.Loading;
       notifyListeners();
       _message = "Sedang memuat...";
+      log(_message);
       final results = await apiService.fetchList();
       if (results.restaurants.isEmpty) {
         _state = ResultState.NoData;

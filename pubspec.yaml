@@ -21,20 +21,20 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  android_alarm_manager: ^2.0.2
+  android_alarm_manager_plus: ^2.0.3
   animate_do: ^2.0.0
   cached_network_image: ^3.1.0
   cupertino_icons: ^1.0.2
-  firebase_auth: ^3.1.0
-  firebase_core: ^1.5.0
+  firebase_auth: ^3.3.4
+  firebase_core: ^1.10.6
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^8.1.1+1
+  flutter_local_notifications: ^9.1.5
   flutter_signin_button: ^2.0.0
   get: ^4.3.4
   google_fonts: ^2.0.0
-  google_sign_in: ^5.0.7
-  http: ^0.13.3
+  google_sign_in: ^5.2.1
+  http: ^0.13.4
   intl: ^0.17.0
   introduction_screen: ^2.1.0
   lottie: ^1.1.0
