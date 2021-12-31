@@ -34,8 +34,7 @@ class ApiService {
     final response = await http.post(
       Uri.parse('$_baseUrl/review'),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-Auth-Token': '12345'
+        'Content-Type': 'application/json',
       },
       body: {"id": id, "name": name, "review": review},
     );
